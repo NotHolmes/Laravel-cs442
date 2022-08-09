@@ -44,14 +44,13 @@
                 <span class="bg-white px-4 text-sm text-gray-500">Action</span>
             </div>
         </div>
-
-        @auth
+        @can('update', $post)
         <div>
             <a class="app-button" href="{{ route('posts.edit', ['post' => $post->id]) }}">
                 Edit this post
             </a>
         </div>
-        @endauth
+        @endcan
     </article>
 
     <section class="mx-16 mt-8">

@@ -35,6 +35,8 @@ class PostController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Post::class);
+
         return view('posts.create');
     }
 
@@ -46,11 +48,13 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('create', Post::class);
+
         $post = new Post();
         $post->title = $request->input('title');
         $post->description = $request->input('description');
         $post->user_id = Auth::user()->id;
-        // $post->user_id
+        // $post->user_id ............... use relationship to save
         $post->save();
 
         $tags = $request->get('tags');
@@ -82,11 +86,12 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
+        // no need to specify class because post is the parameter
+        $this->authorize('update', $post);
 
-        if(Gate::allows('update-post', $post)){
         $tags = implode(', ', $post->tags->pluck('name')->all());
         return view('posts.edit', ['post' => $post, 'tags' => $tags]);
-        }
+
 
         return view('posts.show', ['post' => $post]);
     }
@@ -100,6 +105,8 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
+
+        $this->authorize('update');
         $post->title = $request->input('title');
         $post->description = $request->input('description');
         $post->save();
@@ -140,6 +147,8 @@ class PostController extends Controller
      */
     public function destroy(Request $request, Post $post)
     {
+        $this->authorize('delete', $post);
+
         $title = $request->input('title');
         if ($title == $post->title) {
             $post->delete();
