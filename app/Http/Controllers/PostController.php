@@ -7,6 +7,8 @@ use App\Models\Tag;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -47,6 +49,8 @@ class PostController extends Controller
         $post = new Post();
         $post->title = $request->input('title');
         $post->description = $request->input('description');
+        $post->user_id = Auth::user()->id;
+        // $post->user_id
         $post->save();
 
         $tags = $request->get('tags');
@@ -78,9 +82,13 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        $tags = implode(', ', $post->tags->pluck('name')->all());
 
+        if(Gate::allows('update-post', $post)){
+        $tags = implode(', ', $post->tags->pluck('name')->all());
         return view('posts.edit', ['post' => $post, 'tags' => $tags]);
+        }
+
+        return view('posts.show', ['post' => $post]);
     }
 
     /**

@@ -45,11 +45,13 @@
             </div>
         </div>
 
+        @auth
         <div>
             <a class="app-button" href="{{ route('posts.edit', ['post' => $post->id]) }}">
                 Edit this post
             </a>
         </div>
+        @endauth
     </article>
 
     <section class="mx-16 mt-8">

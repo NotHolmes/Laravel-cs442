@@ -43,10 +43,9 @@
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
-                            <a
-                            class="block py-2 pr-4 pl-3 rounded md:p-0 hover:underline @if (Route::currentRouteName() === '/') current-page @endif">
+                            <button class="block py-2 pr-4 pl-3 rounded md:p-0 hover:underline @if (Route::currentRouteName() === '/') current-page @endif">
                                 Logout
-                            </a>
+                            </button>
                         </form>
                     </li>
                 @else
