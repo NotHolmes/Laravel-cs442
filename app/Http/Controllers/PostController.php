@@ -10,6 +10,11 @@ use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
+    public function _construct()
+    {
+        $this->middleware('auth')->except(['index', 'show']);
+    }
+
     /**
      * Display a listing of the resource.
      *

@@ -14,17 +14,14 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return redirect()->to('/posts');
+    return redirect()->route('posts.index');
 });
 
-                        // Closure
-Route::get('/about', function () {
-    return "About Me";
-});
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth'])->name('dashboard');
 
-Route::get('/pages', [\App\Http\Controllers\PageController::class, 'index']);
-
-Route::get('/pages/{id}', [\App\Http\Controllers\PageController::class, 'show']);
+require __DIR__.'/auth.php';
 
 Route::post('/posts/{post}/comments/store', [\App\Http\Controllers\PostController::class, 'storeComment'])
     ->name('posts.comments.store');
