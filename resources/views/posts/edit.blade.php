@@ -42,10 +42,9 @@
             <div>
                 <button class="app-button" type="submit">Edit</button>
             </div>
-
         </form>
     </section>
-
+    @can('delete')
     <section class="mx-8 mt-16">
         <div class="relative py-4">
             <div class="absolute inset-0 flex items-center">
@@ -55,7 +54,6 @@
                 <span class="bg-white px-4 text-sm text-red-500">Danger Zone</span>
             </div>
         </div>
-
         <div>
             <h3 class="text-red-600 mb-4 text-2xl">
                 Delete this Post
@@ -79,5 +77,6 @@
             </form>
         </div>
     </section>
+    @endcan
 
 @endsection

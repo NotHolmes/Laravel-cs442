@@ -5,6 +5,8 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\User;
+use Database\Factories\UserFactory;
+use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
 {
@@ -18,10 +20,10 @@ class UserSeeder extends Seeder
         $admin = User::where('email', 'admin@example.com')->first();
         if (!$admin) {
             $admin = new User();
-            $admin->name = "Administrator S.";
+            $admin->name = "Administrator";
             $admin->role = "ADMIN";
             $admin->email = "admin@example.com";
-            $admin->password = "adminpass";
+            $admin->password = Hash::make("adminpass");
 
             $admin->save();
         }
@@ -32,9 +34,22 @@ class UserSeeder extends Seeder
             $user->name = "User 01";
             $user->role = "USER";
             $user->email = "user01@example.com";
-            $user->password = "userpass";
+            $user->password = Hash::make("userpass");
 
             $user->save();
         }
+
+        $editor = User::where('email', 'editor@example.com')->first();
+        if(!$editor) {
+            $user = new User();
+            $user->name = "Editor";
+            $user->role = "EDITOR";
+            $user->email = "editor@example.com";
+            $user->password = Hash::make("editorpass");
+
+            $user->save();
+        }
+
+        User::factory(10)->create();
     }
 }
