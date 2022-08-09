@@ -53,8 +53,7 @@ class PostPolicy
      */
     public function update(User $user, Post $post)
     {
-        return $user->isAdmin() or $user->isEditor() or
-        ($user->isUser() and $user->id === $post->user_id);
+        return $user->isAdmin() or $user->isEditor() or ($user->isUser() and $user->id === $post->user->id);
     }
 
     /**

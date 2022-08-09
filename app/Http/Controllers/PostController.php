@@ -6,6 +6,7 @@ use App\Models\Comment;
 use App\Models\Tag;
 use Illuminate\Http\Request;
 use App\Models\Post;
+use Illuminate\Auth\Events\Validated;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Auth;
@@ -50,6 +51,11 @@ class PostController extends Controller
     {
         $this->authorize('create', Post::class);
 
+        $validated = $request->validate([
+            'title' => ['required', 'max:255', 'min:5'],
+            'description' => ['required', 'max:1000']
+        ]);
+
         $post = new Post();
         $post->title = $request->input('title');
         $post->description = $request->input('description');
@@ -91,9 +97,6 @@ class PostController extends Controller
 
         $tags = implode(', ', $post->tags->pluck('name')->all());
         return view('posts.edit', ['post' => $post, 'tags' => $tags]);
-
-
-        return view('posts.show', ['post' => $post]);
     }
 
     /**
@@ -106,7 +109,7 @@ class PostController extends Controller
     public function update(Request $request, Post $post)
     {
 
-        $this->authorize('update');
+        $this->authorize('update', $post);
         $post->title = $request->input('title');
         $post->description = $request->input('description');
         $post->save();
